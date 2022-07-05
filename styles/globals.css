@@ -3,5 +3,9 @@
 @tailwind utilities;
 
 body {
- background-color: #312e81;
+ background: linear-gradient(#001b46, #0f172a );
+}
+
+input::-webkit-inner-spin-button {
+ opacity: 1;
 }
