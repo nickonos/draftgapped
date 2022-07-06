@@ -1,6 +1,6 @@
 import {NextPage} from "next";
-
 import {ChangeEvent, useState} from "react";
+import {trpc} from "../../utils/trpc";
 
 const CreateLobby : NextPage = () => {
 
@@ -8,9 +8,13 @@ const CreateLobby : NextPage = () => {
     const [time, setTime] = useState(true)
     const [drafts, setDrafts] = useState(1)
 
+    const hello = trpc.useQuery(["example.getAll"] )
+
     const onClick = () => {
         console.log(`drafts: ${drafts}, time: ${time}, player2: ${player2}`)
 
+
+        console.log(hello)
     }
 
     const onChangeDrafts = (e: ChangeEvent<HTMLInputElement>) => {
