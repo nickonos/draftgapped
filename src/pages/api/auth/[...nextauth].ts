@@ -1,35 +1,53 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
-import GithubProvider from "next-auth/providers/github";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth from 'next-auth';
+import { AppProviders } from 'next-auth/providers';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GithubProvider from 'next-auth/providers/github';
 
-// Prisma adapter for NextAuth, optional and can be removed
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "../../../server/db/client";
-
-export const authOptions: NextAuthOptions = {
-  // Configure one or more authentication providers
-  adapter: PrismaAdapter(prisma),
-  providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
-    // ...add more providers here
+let useMockProvider = process.env.NODE_ENV === 'test';
+const { GITHUB_CLIENT_ID, GITHUB_SECRET, NODE_ENV, APP_ENV } = process.env;
+if (
+  (NODE_ENV !== 'production' || APP_ENV === 'test') &&
+  (!GITHUB_CLIENT_ID || !GITHUB_SECRET)
+) {
+  console.log('⚠️ Using mocked GitHub auth correct credentials were not added');
+  useMockProvider = true;
+}
+const providers: AppProviders = [];
+if (useMockProvider) {
+  providers.push(
     CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        name: {
-          label: "Name",
-          type: "text",
-          placeholder: "Enter your name",
-        },
-      },
-      async authorize(credentials, _req) {
-        const user = { id: 1, name: credentials?.name ?? "J Smith" };
+      id: 'github',
+      name: 'Mocked GitHub',
+      async authorize(credentials) {
+        const user = {
+          id: credentials?.name,
+          name: credentials?.name,
+          email: credentials?.name,
+        };
         return user;
       },
+      credentials: {
+        name: { type: 'test' },
+      },
     }),
-  ],
-};
-
-export default NextAuth(authOptions);
+  );
+} else {
+  providers.push(
+    GithubProvider({
+      clientId: GITHUB_CLIENT_ID,
+      clientSecret: GITHUB_SECRET,
+      profile(profile) {
+        return {
+          id: profile.id,
+          name: profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+        } as any;
+      },
+    }),
+  );
+}
+export default NextAuth({
+  // Configure one or more authentication providers
+  providers,
+});
