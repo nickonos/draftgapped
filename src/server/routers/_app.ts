@@ -2,7 +2,6 @@
  * This file contains the root router of your tRPC-backend
  */
 import { createRouter } from '../createRouter';
-import { postRouter } from './post';
 import { Subscription } from '@trpc/server';
 import superjson from 'superjson';
 import { clearInterval } from 'timers';
@@ -20,8 +19,7 @@ export const appRouter = createRouter()
    * @link https://trpc.io/docs/data-transformers
    */
   .transformer(superjson)
-    .merge('post.', postRouter)
-    .merge('lobby.', lobbyRouter)
+    //.merge('lobby.', lobbyRouter)
   /**
    * Optionally do custom error (type safe!) formatting
    * @link https://trpc.io/docs/error-formatting

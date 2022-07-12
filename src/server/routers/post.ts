@@ -4,7 +4,7 @@ import { Post } from '@prisma/client';
 import { Subscription, TRPCError } from '@trpc/server';
 import { EventEmitter } from 'events';
 import { z } from 'zod';
-
+/*
 interface MyEvents {
   add: (data: Post) => void;
   isTypingUpdate: () => void;
@@ -150,3 +150,4 @@ export const postRouter = createRouter()
       });
     },
   });
+*/

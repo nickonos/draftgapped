@@ -3,7 +3,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
-
+/*
 function AddMessageForm({ onMessagePost }: { onMessagePost: () => void }) {
     const addPost = trpc.useMutation('post.add');
     const utils = trpc.useContext();
@@ -52,11 +52,6 @@ function AddMessageForm({ onMessagePost }: { onMessagePost: () => void }) {
             <form
                 onSubmit={async (e) => {
                     e.preventDefault();
-                    /**
-                     * In a real app you probably don't want to use this manually
-                     * Checkout React Hook Form - it works great with tRPC
-                     * @link https://react-hook-form.com/
-                     */
                     await postMessage();
                 }}
             >
@@ -107,7 +102,9 @@ function AddMessageForm({ onMessagePost }: { onMessagePost: () => void }) {
         </>
     );
 }
+*/
 
+/*
 export default function IndexPage() {
     const postsQuery = trpc.useInfiniteQuery(['post.infinite', {}], {
         getPreviousPageParam: (d) => d.prevCursor,
@@ -313,7 +310,7 @@ export default function IndexPage() {
         </>
     );
 }
-
+*/
 /**
  * If you want to statically render this page
  * - Export `appRouter` & `createContext` from [trpc].ts

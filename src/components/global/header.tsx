@@ -5,7 +5,7 @@ export default function Header({children} : {children : React.ReactNode}){
     return (
         <>
             <Head>
-                <title>League Draft App</title>
+                <title>Draft Gapped</title>
                 <meta name="description" content="An app to create a League of Legends Draft" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
